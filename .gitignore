@@ -60,3 +60,6 @@ typings/
 # vscode 
 .history
 .vscode 
+
+# front-end build 
+static/dist
