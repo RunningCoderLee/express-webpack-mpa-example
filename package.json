@@ -7,9 +7,8 @@
     "clean:server": "rm -rf server/dist",
     "build:client": "npm run 'clean:client' && webpack --config client/config/webpack.config.js",
     "build:server": "npm run 'clean:server' && babel server/src -d server/dist",
-    "start": "nodemon server/server.js",
-    "start:prod": "npm run 'build:client' && npm run 'build:server' && node server/dist/index",
-    "build": ""
+    "start:dev": "nodemon --exec babel-node server/src/index",
+    "start:prod": "npm run 'build:client' && npm run 'build:server' && node server/dist/index"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
