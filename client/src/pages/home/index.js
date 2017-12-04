@@ -1,7 +1,13 @@
-import $ from 'jquery';
 
 import './style.less';
 
-$(function () {
-  console.log(1111)
-});
+window.onload = function () {
+  delayToPrint(1000)
+
+
+  async function delayToPrint(time) {
+    await setTimeout(() => {
+      console.log(111)
+    }, time);
+  }
+};

@@ -3,12 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    'home': `${paths.clientPages}/home/index`,
+    'home': `${paths.client.pages}/home/index`,
     // 'users': '../pages/users/users.js'
   }, 
 
   output: {
-    path: paths.clientDist,
+    path: paths.client.dist,
 
     filename: "[name].bundle.[hash].js", 
 
@@ -19,7 +19,7 @@ module.exports = {
     rules: [
       {
         test:/\.js$/,
-        include: paths.client,
+        include: paths.client.src,
         use: [
           {
             loader: 'babel-loader',
@@ -27,10 +27,11 @@ module.exports = {
               presets: [
                 ["env", {
                   "targets": {
-                    "browsers": ["ie >= 7"]
+                    "browsers": ["Chrome >= 62"]
                   }
                 }]
-              ]
+              ],
+              babelrc: false,
             }
           }
         ]
@@ -72,13 +73,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       chunks: ['home'],
-      template: `${paths.clientPages}/home/templates/index.ejs`,
-      filename: `${paths.serverViews}/home/home.ejs`,
+      template: `${paths.client.pages}/home/templates/index.ejs`,
+      filename: `${paths.server.views}/home/home.ejs`,
     }),
     new HtmlWebpackPlugin({
       inject: false,
-      template: `${paths.clientPages}/home/templates/list.ejs`,
-      filename: `${paths.serverViews}/home/list.ejs`,
+      template: `${paths.client.pages}/home/templates/list.ejs`,
+      filename: `${paths.server.views}/home/list.ejs`,
     }),
     // new HtmlWebpackPlugin({
     //   inject: false,

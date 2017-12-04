@@ -4,8 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const url = require('url');
 
-// Make sure any symlinks in the project folder are resolved:
-// https://github.com/facebookincubator/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
@@ -40,14 +38,22 @@ function getServedPath(appPackageJson) {
 
 // config after eject: we're in ./config/
 module.exports = {
-  dotenv: resolveApp('.env'),
-  client: resolveApp('client'),
-  clientSrc: resolveApp('client/src'),
-  clientPages: resolveApp('client/src/pages'),
-  clientDist: resolveApp('static/dist'),
-  server: resolveApp('server'),
-  serverViews: resolveApp('server/views'),
-  appPackageJson: resolveApp('package.json'),
+  client: {
+    dist: resolveApp('static/dist'),
+    pages: resolveApp('client/src/pages'),
+    src: resolveApp('client/src'),
+    root: resolveApp('client'),
+  },
+  helper: resolveApp('helper'),
+  server: {
+    dist: resolveApp('server/dist'),
+    root: resolveApp('server'),
+    routes: resolveApp('server/src/routes'),
+    src: resolveApp('server/src'),
+    views: resolveApp('server/views'),
+  },
+  static: resolveApp('static'),
+  packageJson: resolveApp('package.json'),
   yarnLockFile: resolveApp('yarn.lock'),
-  appNodeModules: resolveApp('node_modules'),
+  nodeModules: resolveApp('node_modules'),
 };

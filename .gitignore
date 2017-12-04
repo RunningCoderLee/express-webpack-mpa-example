@@ -65,3 +65,6 @@ typings/
 static/dist
 
 server/views
+
+# back-end build
+server/dist
