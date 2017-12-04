@@ -63,3 +63,5 @@ typings/
 
 # front-end build 
 static/dist
+
+server/views
