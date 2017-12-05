@@ -1,17 +1,17 @@
-const express = require('express');
-const path = require('path');
-const paths = require('../../helper/paths');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const debug = require('debug')('express-webpack-mpa-example:server');
-const http = require('http');
+import express from 'express';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import debug from 'debug';
+import http from 'http';
+import config from 'config';
+import paths from '../../helper/paths';
 
-const index = require('./routes/index');
-const list = require('./routes/list');
-const image = require('./routes/image');
+import index from './routes/index';
+import list from './routes/list';
+import image from './routes/image';
 
+const debugType = debug('express-webpack-mpa-example:server');
 const app = express();
 
 // view engine setup
@@ -32,7 +32,7 @@ app.use('/image', image);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  let err = new Error('Not Found');
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+const port = config.server.service;
 app.set('port', port);
 
 /**
@@ -66,26 +66,6 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.
@@ -103,7 +83,7 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind } requires elevated privileges`);
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
@@ -124,5 +104,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  debugType(`Listening on ${bind}`);
 }

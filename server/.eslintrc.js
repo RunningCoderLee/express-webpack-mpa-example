@@ -2,8 +2,5 @@
 module.exports = {
   env: {
     node: true,
-  },
-  rules: {   
-    semi: ["error", "never"]
   }
 };
