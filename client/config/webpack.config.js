@@ -1,11 +1,9 @@
-const paths = require('../../helper/paths');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const paths = require('../../helper/paths')
+const entry = require('./entry')
+const plugins = require('./plugins')
 
 module.exports = {
-  entry: {
-    home: `${paths.client.pages}/home/index`,
-    // 'users': '../pages/users/users.js'
-  },
+  entry,
 
   output: {
     path: paths.client.dist,
@@ -49,6 +47,7 @@ module.exports = {
         ],
       },
 
+
       {
         test: /\.less$/,
         use: [{
@@ -63,29 +62,12 @@ module.exports = {
           },
         }],
       },
+
+
     ],
 
     /* Advanced module configuration (click to show) */
   },
 
-  context: __dirname,
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      chunks: ['home'],
-      template: `${paths.client.pages}/home/templates/index.ejs`,
-      filename: `${paths.server.views}/home/home.ejs`,
-    }),
-    new HtmlWebpackPlugin({
-      inject: false,
-      template: `${paths.client.pages}/home/templates/list.ejs`,
-      filename: `${paths.server.views}/home/list.ejs`,
-    }),
-    // new HtmlWebpackPlugin({
-    //   inject: false,
-    //   chunks: ['users'],
-    //   template: path.resolve(__dirname, './client/users/index.ejs'),
-    //   filename: path.resolve(__dirname,'./views/users.ejs'),
-    // })
-  ],
-};
+  plugins,
+}

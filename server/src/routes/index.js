@@ -1,13 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+
+const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  var ls = ['张三', '李四', '王五']
-  
+router.get('/', (req, res) => {
+  const ls = ['张三', '李四', '王五'];
+
   async function delayRender(time) {
     await setTimeout(() => {
-      res.render('home/home.ejs', { title: 'Home', ls: ls });
+      res.render('pages/home/templates/index.ejs', { title: 'Home', ls });
     }, time);
   }
 

@@ -10,6 +10,7 @@ import paths from '../../helper/paths';
 import index from './routes/index';
 import list from './routes/list';
 import image from './routes/image';
+import todoMvc from './routes/todoMvc';
 
 const debugType = debug('express-webpack-mpa-example:server');
 const app = express();
@@ -29,6 +30,7 @@ app.use(express.static(paths.static));
 app.use('/', index);
 app.use('/list', list);
 app.use('/image', image);
+app.use('/todo-mvc', todoMvc);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
