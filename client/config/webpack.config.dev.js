@@ -1,6 +1,6 @@
 const paths = require('../../helper/paths')
-const entry = require('./entry')
-const plugins = require('./plugins')
+const entry = require('./webpackConfig/entry')
+const plugins = require('./webpackConfig/plugins')
 
 module.exports = {
   entry,

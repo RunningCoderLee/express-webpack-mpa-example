@@ -2,18 +2,21 @@ import express from 'express';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import debug from 'debug';
+// import debug from 'debug';
 import http from 'http';
 import config from 'config';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 import paths from '../../helper/paths';
+import webpackDevConfig from '.././../client/config/webpack.config.dev';
 
-import index from './routes/index';
-import list from './routes/list';
-import image from './routes/image';
-import todoMvc from './routes/todoMvc';
 
-const debugType = debug('express-webpack-mpa-example:server');
+// const debugType = debug('express-webpack-mpa-example:server');
 const app = express();
+
+const isDev = process.env.NODE_ENV === 'development';
+
 
 // view engine setup
 app.set('views', paths.server.views);
@@ -25,86 +28,80 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(paths.static));
-
-app.use('/', index);
-app.use('/list', list);
-app.use('/image', image);
-app.use('/todo-mvc', todoMvc);
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
 
 
-/**
- * Get port from environment and store in Express.
- */
-const port = config.server.service;
-app.set('port', port);
+if (isDev) {
+  const compiler = webpack(webpackDevConfig);
+  app.use(webpackDevMiddleware(compiler, {
+    // publicPath is required, whereas all other options are optional
 
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
+    noInfo: false,
+    // display no info to console (only warnings and errors)
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+    quiet: false,
+    // display nothing to the console
 
-/**
- * Event listener for HTTP server "error" event.
- */
+    // lazy: true,
+    // switch into lazy mode
+    // that means no watching, but recompilation on every request
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    // watchOptions: {
+    //   aggregateTimeout: 300,
+    //   poll: true,
+    // },
+    // watch options (only lazy: false)
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+    publicPath: webpackDevConfig.output.publicPath,
+    // public path to bind the middleware to
+    // use the same as in webpack
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
+    // index: 'index.html',
+    // The index path for web server, defaults to "index.html".
+    // If falsy (but not undefined), the server will not respond to requests to the root URL.
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+    // headers: { 'X-Custom-Header': 'yes' },
+    // custom headers
 
-function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
-  debugType(`Listening on ${bind}`);
+    // mimeTypes: { 'text/html': ['phtml'] },
+    // Add custom mime/extension mappings
+    // https://github.com/broofa/node-mime#mimedefine
+    // https://github.com/webpack/webpack-dev-middleware/pull/150
+
+    stats: {
+      colors: true,
+    },
+    // options for formating the statistics
+
+    // reporter: null,
+    // Provide a custom reporter to change the way how logs are shown.
+
+    // serverSideRender: false,
+    // Turn off the server-side rendering mode. See Server-Side Rendering part for more info.
+  }));
+
+  app.use(webpackHotMiddleware(compiler));
+
+  require('./routes')(app); // eslint-disable-line
+
+  app.listen(3000, () => {
+    console.log('Example app listening on port 3000!\n');
+  });
+} else {
+  app.use(express.static(paths.static));
+
+  /**
+   * Get port from environment and store in Express.
+   */
+  const port = config.server.service;
+  app.set('port', port);
+
+  /**
+   * Create HTTP server.
+   */
+  const server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+  server.listen(port);
 }

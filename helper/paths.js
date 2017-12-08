@@ -39,6 +39,7 @@ function ensureSlash(path, needsSlash) { // eslint-disable-line
 // config after eject: we're in ./config/
 module.exports = {
   client: {
+    config: resolveApp('client/config'),
     dist: resolveApp('static/dist'),
     pages: resolveApp('client/src/pages'),
     publicTemplates: resolveApp('client/src/publicTemplates'),

@@ -1,6 +1,6 @@
 const { readdirSync } = require('fs')
 // const { join } = require('path')
-const paths = require('../../helper/paths')
+const paths = require('../../..//helper/paths')
 
 // const isDirectory = source => lstatSync(source).isDirectory()
 

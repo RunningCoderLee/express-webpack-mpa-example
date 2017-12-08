@@ -1,12 +1,13 @@
 
-import './style.less';
+import './style.less'
 
 window.onload = function onload() {
   async function delayToPrint(time) {
     await setTimeout(() => {
       console.log(111)
-    }, time);
+    }, time)
   }
 
-  delayToPrint(1000);
-};
+  delayToPrint(1000)
+  console.log(11)
+}

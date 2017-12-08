@@ -1,6 +1,7 @@
-const paths = require('../../helper/paths')
+const paths = require('../../../helper/paths')
 const { readdirSync } = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const read = require('fs-readdir-recursive')
 
 
@@ -11,8 +12,6 @@ const htmlWebpackPlugins = []
 
 const foldersNameInPages = readdirSync(pagesFolderPath)
 const publicTemplates = read(paths.client.publicTemplates)
-
-console.log(publicTemplates)
 
 
 if (foldersNameInPages.length === 0) {
@@ -27,6 +26,7 @@ foldersNameInPages.forEach((folder) => {
   if (!(templates.length === 0)) {
     templates.forEach((template) => {
       const options = {
+        alwaysWriteToDisk: true,
         template: `${currentPageTemplateFolderPath}/${template}`,
         filename: `${paths.server.views}/pages/${folder}/templates/${template}`,
       }
@@ -45,14 +45,15 @@ foldersNameInPages.forEach((folder) => {
 
 publicTemplates.forEach((item) => {
   const options = {
+    alwaysWriteToDisk: true,
     template: `${publicTemplatesFolderPath}/${item}`,
     filename: `${paths.server.views}/publicTemplates/${item}`,
     inject: false,
   }
 
-  console.log(options)
-
   htmlWebpackPlugins.push(new HtmlWebpackPlugin(options))
 })
 
-module.exports = [...htmlWebpackPlugins]
+const plugins = [...htmlWebpackPlugins, new HtmlWebpackHarddiskPlugin()]
+
+module.exports = plugins
