@@ -1,0 +1,10 @@
+{
+  "ignore": [
+    "client/src/*.*",
+    ".git",
+    "node_module/*",
+    ".vscode",
+    ".history",
+    ".idea"
+  ]
+}

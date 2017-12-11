@@ -2,6 +2,8 @@ const { readdirSync } = require('fs')
 // const { join } = require('path')
 const paths = require('../../..//helper/paths')
 
+const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
+
 // const isDirectory = source => lstatSync(source).isDirectory()
 
 const folders = readdirSync(paths.client.pages)
@@ -9,7 +11,10 @@ const folders = readdirSync(paths.client.pages)
 const entry = {}
 
 folders.forEach((folder) => {
-  entry[folder] = [`${paths.client.pages}/${folder}/index`]
+  entry[folder] = [
+    `${paths.client.pages}/${folder}/index`,
+    hotMiddlewareScript,
+  ]
 })
 
 

@@ -79,13 +79,26 @@ if (isDev) {
     // Turn off the server-side rendering mode. See Server-Side Rendering part for more info.
   }));
 
-  app.use(webpackHotMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler, {
+    log: false,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000,
+  }));
 
   require('./routes')(app); // eslint-disable-line
 
-  app.listen(3000, () => {
+  const server = http.createServer(app);
+
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+  server.listen(3000, () => {
     console.log('Example app listening on port 3000!\n');
   });
+  // app.listen(3000, () => {
+  //   console.log('Example app listening on port 3000!\n');
+  // });
 } else {
   app.use(express.static(paths.static));
 
