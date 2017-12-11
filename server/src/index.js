@@ -9,9 +9,9 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import paths from '../../helper/paths';
-import webpackDevConfig from '.././../client/config/webpack.config.dev';
+import webpackConfig from '../../client/config/webpack.config';
 
-
+console.log('webpackConfig = ', webpackConfig);
 // const debugType = debug('express-webpack-mpa-example:server');
 const app = express();
 
@@ -31,7 +31,7 @@ app.use(cookieParser());
 
 
 if (isDev) {
-  const compiler = webpack(webpackDevConfig);
+  const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler, {
     // publicPath is required, whereas all other options are optional
 
@@ -51,7 +51,7 @@ if (isDev) {
     // },
     // watch options (only lazy: false)
 
-    publicPath: webpackDevConfig.output.publicPath,
+    publicPath: webpackConfig.output.publicPath,
     // public path to bind the middleware to
     // use the same as in webpack
 

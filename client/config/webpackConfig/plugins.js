@@ -43,6 +43,7 @@ foldersNameInPages.forEach((folder) => {
   }
 })
 
+// create html webpack plugin for all template files in publicTemplates folder
 publicTemplates.forEach((item) => {
   const options = {
     alwaysWriteToDisk: true,
