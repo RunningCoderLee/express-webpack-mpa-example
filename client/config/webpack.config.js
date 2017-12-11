@@ -5,6 +5,8 @@ const plugins = require('./webpackConfig/plugins')
 
 
 const config = {
+  devtool: 'cheap-module-eval-source-map',
+
   entry,
 
   output,
@@ -12,6 +14,15 @@ const config = {
   module: modules,
 
   plugins,
+
+  externals: {
+    jquery: 'jQuery',
+    jQuery: 'jQuery',
+    $: 'jQuery',
+    'window.$': 'jQuery',
+    'window.jquery': 'jQuery',
+    'window.jQuery': 'jQuery',
+  },
 }
 
 console.log('config = ', config)
