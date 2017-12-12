@@ -14,6 +14,7 @@ folders.forEach((folder) => {
   entry[folder] = [
     `${paths.client.pages}/${folder}/index`,
     hotMiddlewareScript,
+    `bootstrap-loader/lib/bootstrap.loader?configFilePath=${paths.root}/.bootstraprc!bootstrap-loader/no-op.js`,
   ]
 })
 

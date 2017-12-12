@@ -1,5 +1,3 @@
-
-
 const path = require('path');
 const fs = require('fs');
 // const url = require('url');
@@ -47,6 +45,7 @@ module.exports = {
     root: resolveApp('client'),
   },
   helper: resolveApp('helper'),
+  root: appDirectory,
   server: {
     dist: resolveApp('server/dist'),
     root: resolveApp('server'),
