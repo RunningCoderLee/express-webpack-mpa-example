@@ -14,7 +14,8 @@
   <h1>这是<%= title %>页</h1>
   <% var list = ls %>
   <%- include('list', { list: list }); %>
-  <button id="increase">点我加1</button>
+  <button class="btn btn-primary" id="increase">点我加1</button>
+  <button class="btn btn-success" id="dialog">显示对话框</button>
   <div>
     <span id="result">0</span>
   </div>

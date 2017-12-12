@@ -35,10 +35,14 @@ const modules = {
               options: {
                 presets: [
                   ['env', {
+                    modules: false,
                     targets: {
                       browsers: ['Chrome >= 62'],
                     },
                   }],
+                ],
+                plugins: [
+                  'lodash',
                 ],
                 babelrc: false,
               },
