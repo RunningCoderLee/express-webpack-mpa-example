@@ -85,8 +85,9 @@ const modules = {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                sourceMap: true,
                 plugins: () => [
-                  'postcss-flexbugs-fixes',  // eslint-disable-line
+                  // 'postcss-flexbugs-fixes',  // eslint-disable-line
                   autoprefixer({
                     flexbox: 'no-2009',
                   }),
@@ -101,6 +102,26 @@ const modules = {
                 // includePaths: [`${paths.appNodeModules}/normalize-scss/sass`],
               },
             },
+          ],
+        },
+
+        {
+          test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          // Limiting the size of the woff fonts breaks font-awesome ONLY for the extract text plugin
+          // loader: "url?limit=10000"
+          use: 'url-loader',
+        },
+
+        {
+          test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+          use: 'file-loader',
+        },
+
+        {
+          test: /font-awesome\.config\.js/,
+          use: [
+            { loader: 'style-loader' },
+            { loader: 'font-awesome-loader' },
           ],
         },
 

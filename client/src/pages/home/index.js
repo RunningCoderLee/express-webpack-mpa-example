@@ -1,7 +1,10 @@
 import Dialog from 'art-dialog/dist/dialog-plus'
 import _ from 'lodash'
 
-import './style.less'
+
+// import 'font-awesome/scss/font-awesome.scss'
+// import '../../fontAwesomeConfiguration/font-awesome.config'
+import '../../fontAwesomeConfiguration/index'
 
 $(() => {
   async function delayToPrint(time) {
