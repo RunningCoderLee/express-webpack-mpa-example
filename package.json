@@ -9,7 +9,7 @@
     "build:client": "npm run 'clean:client' && webpack --config client/config/webpack.config.js",
     "build:server": "npm run 'clean:server' && babel server/src -d server/dist",
     "start:dev": "NODE_ENV=development nodemon --exec babel-node server/src/index",
-    "start:prod": "npm run 'build:client' && npm run 'build:server' && node server/dist/index"
+    "start:prod": "NODE_ENV=production npm run 'build:client' && npm run 'build:server' && node server/dist/index"
   },
   "dependencies": {
     "art-dialog": "^7.0.0",
@@ -28,7 +28,9 @@
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "ejs-lint": "^0.3.0",
+    "eslint-loader": "^1.9.0",
     "express": "~4.15.5",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
     "font-awesome": "^4.7.0",
     "font-awesome-loader": "^1.0.2",
@@ -43,11 +45,13 @@
     "morgan": "~1.9.0",
     "node-sass": "^4.7.2",
     "nodemon": "^1.12.1",
+    "postcss-flexbugs-fixes": "^3.2.0",
     "postcss-loader": "^2.0.9",
     "reload-html-webpack-plugin": "^0.1.2",
     "resolve-url-loader": "^2.2.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
+    "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "^0.6.2",
     "webpack": "^3.9.1",
     "webpack-dev-middleware": "^1.12.2",
@@ -69,6 +73,10 @@
     ],
     "*.less": [
       "stylelint --syntax=less --fix",
+      "git add"
+    ],
+    "*.scss": [
+      "stylelint --syntax=scss --fix",
       "git add"
     ],
     "*.ejs": [

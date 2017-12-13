@@ -32,6 +32,7 @@ app.use(cookieParser());
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
+
   app.use(webpackDevMiddleware(compiler, {
     // publicPath is required, whereas all other options are optional
 
@@ -89,7 +90,6 @@ if (isDev) {
 
   const server = http.createServer(app);
 
-
   /**
    * Listen on provided port, on all network interfaces.
    */
@@ -107,6 +107,8 @@ if (isDev) {
    */
   const port = config.server.service;
   app.set('port', port);
+
+  require('./routes')(app); // eslint-disable-line
 
   /**
    * Create HTTP server.

@@ -6,6 +6,8 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const read = require('fs-readdir-recursive')
 const ReloadPlugin = require('reload-html-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -43,6 +45,21 @@ foldersNameInPages.forEach((folder) => {
         options.inject = false
       }
 
+      if (!isDev) {
+        options.minify = {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        }
+      }
+
       htmlWebpackPlugins.push(new HtmlWebpackPlugin(options))
     })
   }
@@ -62,8 +79,6 @@ publicTemplates.forEach((item) => {
 
 const plugins = [
   ...htmlWebpackPlugins,
-  new webpack.HotModuleReplacementPlugin(),
-  new HtmlWebpackHarddiskPlugin(),
   new LodashModuleReplacementPlugin({
     /** Iteratee shorthands for _.property, _.matches, & _.matchesProperty. */
     shorthands: true,
@@ -104,8 +119,45 @@ const plugins = [
 
 if (isDev) {
   // TODO: 添加此插件会导致hot reload不可用，如更改颜色值会reload页面而不是只更改颜色
-  // 不添加此插件，更改ejs模板文件后nodemon不会重启server
-  plugins.push(new ReloadPlugin())
+// 不添加此插件，更改ejs模板文件后nodemon不会重启server
+  plugins.push(
+    new ReloadPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackHarddiskPlugin() // eslint-disable-line
+  )
+} else {
+  plugins.push(
+    new ExtractTextPlugin({
+      filename: '[name]-[chunkhash].css',
+      allChunks: true,
+    }),
+    new UglifyJsPlugin({
+      test: /\.js$/,
+      // include: paths.client.pages,
+      uglifyOptions: {
+        ie8: false,
+        ecma: 8,
+        mangle: {
+          safari10: true,
+        },
+        output: {
+          comments: false,
+          beautify: false,
+          ascii_only: true,
+        },
+        compress: {
+          warnings: false,
+          // Disabled because of an issue with Uglify breaking seemingly valid code:
+          // https://github.com/facebookincubator/create-react-app/issues/2376
+          // Pending further investigation:
+          // https://github.com/mishoo/UglifyJS2/issues/2011
+          comparisons: false,
+        },
+        warnings: false,
+      },
+    }) // eslint-disable-line
+  )
 }
 
 module.exports = plugins

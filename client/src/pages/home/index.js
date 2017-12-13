@@ -2,9 +2,9 @@ import Dialog from 'art-dialog/dist/dialog-plus'
 import _ from 'lodash'
 
 
-// import 'font-awesome/scss/font-awesome.scss'
-// import '../../fontAwesomeConfiguration/font-awesome.config'
 import '../../fontAwesomeConfiguration/index'
+import './style.less'
+import './layout.scss'
 
 $(() => {
   async function delayToPrint(time) {
@@ -27,7 +27,7 @@ $(() => {
     d.show()
   })
 
-  _.forEach([1, 2, 3], item => console.log(item))
+  _.forEach([1, 2, 3, 4], item => console.log(item))
 })
 
 
