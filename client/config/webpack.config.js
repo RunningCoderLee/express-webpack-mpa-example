@@ -8,7 +8,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const config = {
   bail: !isDev,
 
-  devtool: isDev ? 'cheap-module-eval-source-map' : false,
+  devtool: isDev ? 'source-map' : false,
 
   entry,
 
@@ -17,6 +17,10 @@ const config = {
   module: modules,
 
   plugins,
+
+  resolve: {
+    extensions: ['.js', '.json'],
+  },
 
   externals: {
     jquery: 'jQuery',
@@ -27,7 +31,5 @@ const config = {
     'window.jQuery': 'jQuery',
   },
 }
-
-console.log('config = ', config)
 
 module.exports = config

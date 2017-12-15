@@ -1,0 +1,7 @@
+<ul class="todo-list j-todo-list">
+  <% if (typeof todos === 'object') { %>
+    <% todos.forEach((todo, index) => { %>
+      <%- include('./todoItem.ejs', { todo, index }) %>
+    <% }) %>
+  <% } %>
+</ul>

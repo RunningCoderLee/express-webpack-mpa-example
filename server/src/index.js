@@ -11,8 +11,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import paths from '../../helper/paths';
 import webpackConfig from '../../client/config/webpack.config';
 
-console.log('webpackConfig = ', webpackConfig);
-// const debugType = debug('express-webpack-mpa-example:server');
 const app = express();
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -36,10 +34,10 @@ if (isDev) {
   app.use(webpackDevMiddleware(compiler, {
     // publicPath is required, whereas all other options are optional
 
-    noInfo: false,
+    noInfo: true,
     // display no info to console (only warnings and errors)
 
-    quiet: false,
+    quiet: true,
     // display nothing to the console
 
     // lazy: true,

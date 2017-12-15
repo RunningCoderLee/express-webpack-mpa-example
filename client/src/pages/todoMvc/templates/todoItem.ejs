@@ -1,0 +1,19 @@
+<% 
+let todoItemClassName = 'todo-item' 
+if (todo.completed) {
+  todoItemClassName = 'todo-item--completed'
+}  
+todoItemClassName = todoItemClassName + ' j-todo-item'
+%>
+<li class="<%= todoItemClassName %>" data-id="<%= todo.id %>">
+  <div class="todo-item__view">
+    <input
+      class="todo-item__toggle j-todo-item-toggle"
+      type="checkbox"
+      <% if(todo.completed) { %>checked<% } %>
+    >
+    <label class="todo-item__title"><%- todo.title %></label>
+    <button class="todo-item__destroy j-todo-item-destroy"></button>
+  </div>
+  <input class="todo-item__edit" value="<%- todo.title %>">
+</li>
